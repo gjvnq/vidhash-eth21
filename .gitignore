@@ -1,4 +1,5 @@
 test-media/*
+old/test-media/*
 test-net/*
 
 old/golang/vidhasher/vidhasher
