@@ -23,12 +23,24 @@ var rootCmd = &cobra.Command{
 }
 
 var voteCmd = &cobra.Command{
-	Use:   "vote [phash/path] [chash]",
-	Short: "Votes on an equivalence entry",
-	Long:  "If only one argument is present, it will be interpreted as the file path.\nIf two are present, they will be interpreted as phash and chash.",
-	Args:  cobra.RangeArgs(1, 2),
+	Use:   "vote [phash] [chash] [vote]",
+	Short: "Votes on an equivalence entry (vote = N/R/W)",
+	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		etherum_dial()
+		make_wallet()
+
+		vote := uint8(0)
+		if args[2] == "R" || args[2] == "r" {
+			vote = 1
+		} else if args[2] == "W" || args[2] == "w" {
+			vote = 2
+		} else if args[2] == "N" || args[2] == "n" {
+			vote = 0
+		} else {
+			Log.FatalF("Invalid vote choice: %s", args[2])
+		}
+		vote_entry(args[0], args[1], vote)
 	},
 }
 

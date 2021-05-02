@@ -104,7 +104,6 @@ func find_phash(cmd *cobra.Command, args []string) {
 	query_str := args[0]
 	query_hex := common.Hex2Bytes(query_str)
 
-	// Instantiate the contract and display its name
 	dict, err := NewHashDictionary(common.HexToAddress(ContractAddr), EthClient)
 	if err != nil {
 		Log.FatalF("Failed to instantiate a HashDictionary contract: %v", err)
@@ -129,4 +128,24 @@ func find_phash(cmd *cobra.Command, args []string) {
 		fmt.Printf("chash = %s\n", common.Bytes2Hex(entry.Hpair.Chash))
 		fmt.Printf("votes = %s YES / %s NO\n", entry.VotesRight.String(), entry.VotesWrong.String())
 	}
+}
+
+func vote_entry(phash, chash string, vote uint8) {
+	dict, err := NewHashDictionary(common.HexToAddress(ContractAddr), EthClient)
+	if err != nil {
+		Log.FatalF("Failed to instantiate a HashDictionary contract: %v", err)
+	}
+	hpair := HashDictionaryHashPair{
+		Phash: common.Hex2Bytes(phash),
+		Chash: common.Hex2Bytes(chash),
+	}
+	auth, err := bind.NewKeyedTransactorWithChainID(EthAccountSK, EthChainId)
+	if err != nil {
+		Log.FatalF("Failed to make transactor: %v", err)
+	}
+	tx, err := dict.VoteEntry(auth, hpair, vote)
+	if err != nil {
+		Log.FatalF("Failed to retrieve chash_alg: %v", err)
+	}
+	fmt.Printf("Transfer pending: 0x%x\n", tx.Hash())
 }

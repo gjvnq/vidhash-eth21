@@ -112,8 +112,10 @@ contract HashDictionary {
     /// @param new_vote The user's vote choice.
 	function voteEntry(HashPair calldata hpair, VoteChoice new_vote) public {
 		uint entry_idx = getEntryIdx(hpair);
-		require(entry_idx != 0, "entry does not exists");
-		require(new_vote != VoteChoice.None, "vote cannot be none");
+		if (entry_idx == 0) {
+			addEntry(hpair);
+			return;
+		}
 
 		bytes memory vote_key = getVoteKey(hpair, msg.sender);
 		VoteChoice old_vote = votes[vote_key];
