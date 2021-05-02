@@ -1,5 +1,10 @@
 import click
 
+# TODO
+# * Vote
+# * Deploy contract
+# * Port to optimism
+# * Publish on IPFS?
 
 @click.group()
 def cli():
