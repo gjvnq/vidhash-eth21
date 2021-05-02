@@ -28,8 +28,8 @@ contract HashDictionary {
 	mapping(bytes => VoteChoice) votes;
 
 	/// @notice Initializes the contract.
-    /// @param alg_phash The name of the (usually perceptual) hash algorithm. Example: "pHash"
-    /// @param alg_chash The name of the (usually cryptographic) hash algorithm. Example: "multihash"
+	/// @param alg_phash The name of the (usually perceptual) hash algorithm. Example: "pHash"
+	/// @param alg_chash The name of the (usually cryptographic) hash algorithm. Example: "multihash"
 	constructor(string memory alg_phash, string memory alg_chash) {
 		require(bytes(alg_phash).length != 0, "phash algorithm must be specified");
 		require(bytes(alg_chash).length != 0, "chash algorithm must be specified");
@@ -84,7 +84,7 @@ contract HashDictionary {
 	}
 
 	/// @notice Adds an equivalence entry and votes for it.
-    /// @param hpair The entry being added.
+	/// @param hpair The entry being added.
 	function addEntry(HashPair calldata hpair) public {
 		// No duplicates
 		uint entry_idx = getEntryIdx(hpair);
@@ -108,8 +108,8 @@ contract HashDictionary {
 	}
 
 	/// @notice Votes on the accuracy of an entry.
-    /// @param hpair The entry being voted on.
-    /// @param new_vote The user's vote choice.
+	/// @param hpair The entry being voted on.
+	/// @param new_vote The user's vote choice.
 	function voteEntry(HashPair calldata hpair, VoteChoice new_vote) public {
 		uint entry_idx = getEntryIdx(hpair);
 		if (entry_idx == 0) {

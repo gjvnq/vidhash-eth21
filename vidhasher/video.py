@@ -109,7 +109,7 @@ def step1(videopath):
 			if last_hash is not None:
 				frames_hash_diff.append(hamming_dist(last_hash, hash_val))
 			last_hash = hash_val
-		if len(frames) % 100*fps == 0:
+		if (len(frames)-1) % 100*fps == 0:
 			percentage = round(100*len(frames)/frame_len)
 			print("\033[0K\033[0G"+f"Processed {len(frames)} frames ({percentage}%)", end="", flush=True)
 
