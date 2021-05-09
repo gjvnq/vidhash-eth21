@@ -23,3 +23,8 @@ $(VENV)/:
 $(VENV)/.marker: setup.py
 	$(VENV)/pip install -e .
 	touch $(VENV)/.marker
+
+.PHONY: test-net
+test-net:
+	# WARING: does NOT work with Geth 1.10.2 (use 1.10.1) see https://github.com/ethereum/go-ethereum/issues/22792
+	geth --nodiscover --ipcpath /tmp/.geth-test.ipc --datadir test-net  --dev -http --http.corsdomain="http://remix.ethereum.org" --http.api web3,eth,debug,personal,net --vmdebug
